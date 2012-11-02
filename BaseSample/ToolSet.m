@@ -59,23 +59,22 @@
     hud.yOffset = 150.f; 
     //hud.color = [UIColor clearColor];
     hud.removeFromSuperViewOnHide = YES;  
-    [hud hide:YES afterDelay:2]; 
+    [hud hide:YES afterDelay:1]; 
 }
 
 /**
  *
  */
-+(void)showHUD:(NSString *)message
++(MBProgressHUD *)setHUD:(NSString *)message
         target:(id)target
           view:(UIView *)view
-      selector:(SEL)selector
 {
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
+    //hud.delegate = target;
+    hud.labelText = message;
 	[view addSubview:hud];
 	//HUD.dimBackground = YES;
-	hud.delegate = target;
-    hud.labelText = message;
-	[hud showWhileExecuting:@selector(selector) onTarget:target withObject:nil animated:YES];
+    return hud;
 }
 
 

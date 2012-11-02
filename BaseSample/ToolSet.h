@@ -40,10 +40,9 @@ typedef enum
 
 #pragma mark -
 #pragma mark 显示一个进度条
-+(void) showHUD:(NSString *)message
++(MBProgressHUD *) setHUD:(NSString *)message
          target:(id)target
-           view:(UIView *) view
-       selector:(SEL)selector;
+           view:(UIView *) view;
 
 
 @end

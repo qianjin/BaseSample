@@ -11,6 +11,12 @@
 #import "MKNetworkKit.h"
 #import "DataModel.h"
 #import "DataParser.h"
+#import "AppDelegate.h"
+#import "IndexViewController.h"
+#import "MoreViewController.h"
+#import "OtherViewController.h"
+
+extern AppDelegate *appDelegate;
 
 @implementation LoginViewController
 
@@ -45,6 +51,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    appDelegate.isRemberPas = NO;
     
     //初始化一些变量
     isEdit = NO;
@@ -99,15 +107,94 @@
     
 }
 
+#pragma mark - 
+#pragma mark Login成功后的操作 
+-(void) loginSuccess:(DataModelUser *)user
+{
+    
+    /*
+    if (appDelegate.isRemberPas == YES) {
+        //自己的文件名（包括目录）
+        NSString *fileName=[PATH_OF_DOCUMENT stringByAppendingPathComponent:@"userInfo"]; 
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:user.userName,@"username",user.password,@"password",nil];
+        //将Dictionary转换成NSData
+        NSString *error;
+        NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:(id)dict
+                                                                       format:NSPropertyListXMLFormat_v1_0 
+                                                             errorDescription:&error];
+        //写文件
+        if (plistData) {
+            [plistData writeToFile:fileName atomically:YES];
+        }
+    }
+    
+    //将当前的帐号写入文件
+    NSString *fileName=[PATH_OF_DOCUMENT stringByAppendingPathComponent:@"currentUserInfo"]; 
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:user.userName,@"username",user.password,@"password",user.sessionKey,@"sessionkey", nil];
+    //将Dictionary转换成NSData
+    NSString *error;
+    NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:(id)dict
+                                                                   format:NSPropertyListXMLFormat_v1_0 
+                                                         errorDescription:&error];
+    //写文件
+    if (plistData) {
+        [plistData writeToFile:fileName atomically:YES];
+    }
+    */
+     
+    //组装TabbarController
+    
+    IndexViewController *index = [[[IndexViewController alloc] init] autorelease];
+    UIImage *indexImg =[UIImage imageNamed:@"homeItem"];
+    UITabBarItem *indexItem = [[UITabBarItem alloc] initWithTitle:@"首页" image:indexImg tag:100];   
+    [index setTabBarItem:indexItem];
+    [indexItem release];
+    //[index setTabBarItem:[[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemTopRated tag:100]];
+    [index setTitle:@"首页"];
+    UINavigationController *navVC1 = [[UINavigationController alloc] initWithRootViewController:index];
+    
+    OtherViewController *other = [[[OtherViewController alloc] init] autorelease];
+    UIImage *otherImg = [UIImage imageNamed:@"business"];
+    UITabBarItem *otherItem = [[UITabBarItem alloc] initWithTitle:@"其它" image:otherImg tag:102];
+    //[other setTabBarItem:[[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemTopRated tag:101]];
+    [other setTabBarItem:otherItem];
+    [otherItem release];
+    [other setTitle:@"其它"];
+    UINavigationController *navVC2 = [[UINavigationController alloc] initWithRootViewController:other];
+    
+    
+    MoreViewController *more = [[[MoreViewController alloc] init] autorelease];
+    //UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:@"设置" image:[UIImage imageNamed@""]];
+    UIImage *moreImg = [UIImage imageNamed:@"settItem"];
+    UITabBarItem *moreItem = [[UITabBarItem alloc] initWithTitle:@"更多" image:moreImg tag:102];
+    [more setTabBarItem:moreItem];
+    [moreItem release];
+    UINavigationController *navVC3 = [[UINavigationController alloc] initWithRootViewController:more];
+    [more.navigationItem setTitle:@"更多"];
+    
+    UITabBarController *tabBarController = [[[UITabBarController alloc] init] autorelease];
+    
+    [tabBarController setViewControllers:[NSArray arrayWithObjects:navVC1, navVC2, navVC3, nil]];
+    
+    [navVC1 release];
+    [navVC2 release];
+    [navVC3 release];
+    
+    [[self navigationController] pushViewController:tabBarController animated:YES];
+    
+
+       
+    
+    
+    
+}
+
 
 -(void) doLoginTask
 {
-    
-    sleep(3);
-    
+    //sleep(3);
     NSString *userName = [tfUserName text];
-    NSString *password = [tfPassword text];
-    
+    NSString *password = [tfPassword text]; 
     MKNetworkEngine *engine = [[[MKNetworkEngine alloc] initWithHostName:@"xs.zj165.com/API"
                                                       customHeaderFields:nil] autorelease];
     NSMutableDictionary *dic = [[[NSMutableDictionary alloc] init] autorelease];
@@ -120,24 +207,19 @@
     
     MKNetworkOperation *op = [engine operationWithPath:@"api" params:dic httpMethod:@"POST"];
     [op onCompletion:^(MKNetworkOperation *operation) {
-        
         NSLog(@"post response string :%@",[op responseString]);
-        
         DataModelUser *user = [DataParser getUserInfo:[op responseString]];
         NSLog(@"user name is :%@,password is : %@ ,and sessionkey is :%@",user.userName,user.password,user.sessionKey);
-        
         if (user) {
             //login sucess
+            [self loginSuccess:user];
         } else {
             //user name or pass error
             NSLog(@"----------error---------");
-            //[ToolSet showMessage:@"用户名or密码错误" ];
-            [ToolSet showMessage:@"用户名or密码错误" view:self.view];
-            
+            [ToolSet showMessage:@"用户名或密码错误" view:self.view];
         }
-        
-        
     } onError:^(NSError *error) {
+        [ToolSet showMessage:@"网络连接错误" view:self.view];
         DLog(@"%@", error);
     }];
     
@@ -154,9 +236,13 @@
 {
     debugMethod();
     UIButton *btn = (UIButton *)sender;
-    [btn setBackgroundImage:[UIImage imageNamed:@"checkbox_checked"] forState:UIControlStateNormal];
-    
-    NSLog(@"test");
+    if (appDelegate.isRemberPas==NO) {
+        [btn setBackgroundImage:[UIImage imageNamed:@"checkbox_checked"] forState:UIControlStateNormal];
+        appDelegate.isRemberPas = YES;
+    } else {
+        [btn setBackgroundImage:[UIImage imageNamed:@"checkbox_nor"] forState:UIControlStateNormal];
+        appDelegate.isRemberPas = NO;
+    }
 }
 //Login
 -(void) btnLoginClick:(id) sender
@@ -164,14 +250,19 @@
     NSLog(@"userName:%@",tfUserName.text);
     NSLog(@"password:%@",tfPassword.text);
 
-    //[ToolSet showHUD:@"Login..." target:self view:self.view selector:@selector(doLoginTask)];
-    
     MBProgressHUD* hud = [[MBProgressHUD alloc] initWithView:self.view];
 	[self.view addSubview:hud];
     hud.labelText = @"Login...";
-	//HUD.dimBackground = YES;
-	hud.delegate = self;
-	[hud showWhileExecuting:@selector(doLoginTask) onTarget:self withObject:nil animated:YES];
+    //block模式
+    [hud showAnimated:YES whileExecutingBlock:^{
+        //[self doLoginTask];
+        
+        [self loginSuccess:nil];
+        
+    } completionBlock:^{
+        [hud removeFromSuperview];
+		[hud release];
+    }];
 
     
     

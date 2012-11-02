@@ -36,13 +36,19 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //1.画页面背景
+    UIImageView *loginBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT)];
+    loginBgImageView.image = [UIImage imageNamed:@"bg_sand"];
+    [self.view addSubview:loginBgImageView];
+    [loginBgImageView release];
+    
 }
-*/
+
 
 - (void)viewDidUnload
 {

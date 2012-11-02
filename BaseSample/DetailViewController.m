@@ -1,16 +1,14 @@
 //
-//  IndexViewController.m
+//  DetailViewController.m
 //  BaseSample
 //
 //  Created by qian jin on 12-11-2.
 //  Copyright (c) 2012年 newyulong. All rights reserved.
 //
 
-#import "IndexViewController.h"
-#import "ToolSet.h"
 #import "DetailViewController.h"
 
-@implementation IndexViewController
+@implementation DetailViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,35 +48,15 @@
     [self.view addSubview:loginBgImageView];
     [loginBgImageView release];
     
-    //UIButton *button = [UIButton alloc] initWithFrame:CGRectMake(110, 100, 100, UI_BUTTON_HEIGHT);
-    UIButton *detailBtn = [ToolSet buttonNormal:@"Detail" 
-                                         target:self 
-                                       selector:@selector(btnDetailClick:) 
-                                          frame:CGRectMake(110, 100, 100, UI_BUTTON_HEIGHT)];
-    [self.view addSubview:detailBtn];
-    [detailBtn release];
-
+    //[[[self navigationItem] backBarButtonItem] setTitle:@""];
+    //[[[[self navigationController] navigationItem] backBarButtonItem] setTitle:@""];
+    
+    //self.navigationItem.backBarButtonItem.image = nil;
+    //self.navigationItem.backBarButtonItem.title = @"test";
+    
     
 }
 
-
--(void) btnDetailClick:(id) sender
-{
-    
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] init];
-    barButtonItem.title = @"返回";
-    self.navigationItem.backBarButtonItem = barButtonItem;
-    [barButtonItem release];
-    
-    DetailViewController *detail = [[[DetailViewController alloc] init] autorelease];
-    [[self navigationController] pushViewController:detail animated:YES];
-    
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    self.navigationItem.title = @"首页";
-}
 
 - (void)viewDidUnload
 {
