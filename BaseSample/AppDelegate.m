@@ -12,8 +12,14 @@
 
 @implementation AppDelegate
 
+AppDelegate *appDelegate;
+
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+
+//自定义的一些全局变量
+@synthesize isRemberPas;
+
 
 - (void)dealloc
 {
@@ -22,8 +28,128 @@
     [super dealloc];
 }
 
+
+-(void)customizeAppearance
+{
+    //得到二张可变大小的图片
+    UIImage *gradientImage44 = [[UIImage imageNamed:@"image_topBar"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    UIImage *gradientImage32 = [[UIImage imageNamed:@"surf_gradient_textured_32"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    //设置背景
+    [[UINavigationBar appearance] setBackgroundImage:gradientImage44 forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:gradientImage32 forBarMetrics:UIBarMetricsLandscapePhone];
+    
+    //设置标题的一些样式
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys: 
+      [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0], 
+      UITextAttributeTextColor, 
+      [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8], 
+      UITextAttributeTextShadowColor, 
+      [NSValue valueWithUIOffset:UIOffsetMake(0, -1)], 
+      UITextAttributeTextShadowOffset, 
+      [UIFont fontWithName:@"Arial-Bold" size:0.0], 
+      UITextAttributeFont, 
+      nil]];
+    
+    
+    //设置UIBarButtonItem的一些样式
+    UIImage *button30 = [[UIImage imageNamed:@"button_textured_30"] 
+                         resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
+    UIImage *button24 = [[UIImage imageNamed:@"button_textured_24"] 
+                         resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
+    [[UIBarButtonItem appearance] setBackgroundImage:button30 forState:UIControlStateNormal 
+                                          barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackgroundImage:button24 forState:UIControlStateNormal 
+                                          barMetrics:UIBarMetricsLandscapePhone];
+    
+    [[UIBarButtonItem appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [UIColor colorWithRed:220.0/255.0 green:104.0/255.0 blue:1.0/255.0 alpha:1.0], 
+      UITextAttributeTextColor, 
+      [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], 
+      UITextAttributeTextShadowColor, 
+      [NSValue valueWithUIOffset:UIOffsetMake(0, 1)], 
+      UITextAttributeTextShadowOffset, 
+      [UIFont fontWithName:@"AmericanTypewriter" size:0.0], 
+      UITextAttributeFont, 
+      nil] forState:UIControlStateNormal];
+    
+    //设置UIbarButtonItem“返回”按键的背景
+    UIImage *buttonBack30 = [[UIImage imageNamed:@"button_back_textured_30"] 
+                             resizableImageWithCapInsets:UIEdgeInsetsMake(0, 13, 0, 5)];
+    UIImage *buttonBack24 = [[UIImage imageNamed:@"button_back_textured_24"] 
+                             resizableImageWithCapInsets:UIEdgeInsetsMake(0, 12, 0, 5)];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:buttonBack30 
+                                                      forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:buttonBack24 
+                                                      forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+    
+    //设置UITabBar背景和选中时图片
+//    UIImage *tabBackground = [[UIImage imageNamed:@"imageTabbar"] 
+//                              resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+//    [[UITabBar appearance] setBackgroundImage:tabBackground];//背景
+//    [[UITabBar appearance] setSelectionIndicatorImage:
+//    [UIImage imageNamed:@"tab_select_indicator"]];//设置选中时的图片
+    //[[UITabBarItem appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tab_select_indicator"]];
+    
+    //自定义slider
+    UIImage *minImage = [[UIImage imageNamed:@"slider_minimum.png"] 
+                         resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 0)];
+    UIImage *maxImage = [[UIImage imageNamed:@"slider_maximum.png"] 
+                         resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 0)];
+    UIImage *thumbImage = [UIImage imageNamed:@"thumb.png"];
+    
+    [[UISlider appearance] setMaximumTrackImage:maxImage 
+                                       forState:UIControlStateNormal];
+    [[UISlider appearance] setMinimumTrackImage:minImage 
+                                       forState:UIControlStateNormal];
+    [[UISlider appearance] setThumbImage:thumbImage 
+                                forState:UIControlStateNormal];
+    
+    //自定义segmentSelected
+    UIImage *segmentSelected = 
+    [[UIImage imageNamed:@"segcontrol_sel.png"] 
+     resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 15)];
+    UIImage *segmentUnselected = 
+    [[UIImage imageNamed:@"segcontrol_uns.png"] 
+     resizableImageWithCapInsets:UIEdgeInsetsMake(0, 15, 0, 15)];
+    UIImage *segmentSelectedUnselected = 
+    [UIImage imageNamed:@"segcontrol_sel-uns.png"];
+    UIImage *segUnselectedSelected = 
+    [UIImage imageNamed:@"segcontrol_uns-sel.png"];
+    UIImage *segmentUnselectedUnselected = 
+    [UIImage imageNamed:@"segcontrol_uns-uns.png"];
+    
+    [[UISegmentedControl appearance] setBackgroundImage:segmentUnselected 
+                                               forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    [[UISegmentedControl appearance] setBackgroundImage:segmentSelected 
+                                               forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+    
+    [[UISegmentedControl appearance] setDividerImage:segmentUnselectedUnselected 
+                                 forLeftSegmentState:UIControlStateNormal 
+                                   rightSegmentState:UIControlStateNormal 
+                                          barMetrics:UIBarMetricsDefault];
+    [[UISegmentedControl appearance] setDividerImage:segmentSelectedUnselected 
+                                 forLeftSegmentState:UIControlStateSelected 
+                                   rightSegmentState:UIControlStateNormal 
+                                          barMetrics:UIBarMetricsDefault];
+    [[UISegmentedControl appearance] 
+     setDividerImage:segUnselectedSelected 
+     forLeftSegmentState:UIControlStateNormal 
+     rightSegmentState:UIControlStateSelected 
+     barMetrics:UIBarMetricsDefault];
+    
+    
+}
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [self customizeAppearance];
+    
+    appDelegate = (AppDelegate *)self;
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
@@ -32,7 +158,7 @@
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     
-    [navController setNavigationBarHidden:YES animated:YES];
+    [navController setNavigationBarHidden:YES animated:NO];
     
     
     self.window.rootViewController = navController;

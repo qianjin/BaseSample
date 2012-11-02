@@ -12,8 +12,17 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+{
+    BOOL isRemberPas;
+
+}
+
+@property BOOL isRemberPas;
+
+
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) ViewController *viewController;
+
 
 @end
