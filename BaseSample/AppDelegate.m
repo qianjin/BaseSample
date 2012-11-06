@@ -7,8 +7,15 @@
 //
 
 #import "AppDelegate.h"
-
+#import "ToolSet.h"
 #import "LoginViewController.h"
+
+@implementation UINavigationBar (CustomImage)  
+- (void)drawRect:(CGRect)rect {  
+    UIImage *image = [UIImage imageNamed: @"image_topBar.png"];  
+    [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];  
+}  
+@end
 
 @implementation AppDelegate
 
@@ -21,6 +28,7 @@ AppDelegate *appDelegate;
 @synthesize isRemberPas;
 
 
+
 - (void)dealloc
 {
     [_window release];
@@ -30,6 +38,16 @@ AppDelegate *appDelegate;
 
 
 -(void)customizeAppearance
+{
+    
+    
+    //self.view.backgroundColor = 
+    
+    
+#ifdef __IPHONE_5_0
+    
+float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+if (version >= 5.0)
 {
     //得到二张可变大小的图片
     UIImage *gradientImage44 = [[UIImage imageNamed:@"image_topBar"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
@@ -139,8 +157,21 @@ AppDelegate *appDelegate;
      forLeftSegmentState:UIControlStateNormal 
      rightSegmentState:UIControlStateSelected 
      barMetrics:UIBarMetricsDefault];
+} else if (version < 5.0){
+    
+    //[[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"image_topBar"]]];
+//    UIImage *image = [UIImage imageNamed: @"image_topBar.png"];
+//    [[UINavigationBar appearance] drawRect: [image drawInRect:CGRectMake(0, 0, 320, 44)]];
+//    
+    // self.navigationController.navigationBar
+   
     
     
+}
+    
+#endif  
+
+
 }
 
 

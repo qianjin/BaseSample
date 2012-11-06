@@ -42,10 +42,10 @@
 {
     [super viewDidLoad];
     //1.画页面背景
-    UIImageView *loginBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT)];
-    loginBgImageView.image = [UIImage imageNamed:@"bg_sand"];
-    [self.view addSubview:loginBgImageView];
-    [loginBgImageView release];
+    UIImageView *moreBg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT)];
+    moreBg.image = [UIImage imageNamed:@"bg_sand"];
+    [self.view addSubview:moreBg];
+    [moreBg release];
     
 }
 

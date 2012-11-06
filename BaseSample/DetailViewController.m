@@ -7,6 +7,8 @@
 //
 
 #import "DetailViewController.h"
+#import "ToolSet.h"
+#import "VCTranslucentBarButtonItem.h"
 
 @implementation DetailViewController
 
@@ -36,6 +38,24 @@
 }
 */
 
+-(void) btnBackClick:(id) sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+ self.navigationItem.hidesBackButton = YES;
+    
+    
+// [ToolSet removeLogoImageFromSuperView:self.navigationController.navigationBar andTag:10015]; 
+// [ToolSet AddNavigationBarBackButtonwithTag:100 Title:@" 返回" target:self selector:@selector(btnBackClick:) targetView:self.navigationController.navigationBar isNeedDelegateButton:NO];
+    
+}
+
+
+
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
@@ -53,6 +73,9 @@
     
     //self.navigationItem.backBarButtonItem.image = nil;
     //self.navigationItem.backBarButtonItem.title = @"test";
+    
+    VCTranslucentBarButtonItem *item = [[VCTranslucentBarButtonItem alloc] initWithType:VCTranslucentBarButtonItemTypeBackward title:@"Test Button" target:self action:@selector(btnBackClick)];
+    self.navigationItem.leftBarButtonItem = item;
     
     
 }

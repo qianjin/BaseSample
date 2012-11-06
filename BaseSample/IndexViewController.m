@@ -45,10 +45,10 @@
     [super viewDidLoad];
     
     //1.画页面背景
-    UIImageView *loginBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT)];
-    loginBgImageView.image = [UIImage imageNamed:@"bg_sand"];
-    [self.view addSubview:loginBgImageView];
-    [loginBgImageView release];
+    UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT)];
+    img.image = [UIImage imageNamed:@"bg_sand"];
+    [self.view addSubview:img];
+    [img release];
     
     //UIButton *button = [UIButton alloc] initWithFrame:CGRectMake(110, 100, 100, UI_BUTTON_HEIGHT);
     UIButton *detailBtn = [ToolSet buttonNormal:@"Detail" 
@@ -56,8 +56,12 @@
                                        selector:@selector(btnDetailClick:) 
                                           frame:CGRectMake(110, 100, 100, UI_BUTTON_HEIGHT)];
     [self.view addSubview:detailBtn];
-    [detailBtn release];
+    
 
+    UILabel *lable = [[UILabel alloc] initWithFrame:CGRectMake(110, 150, 100, UI_LABEL_HEIGHT)];
+    lable.text = @"Hello world";
+    [self.view addSubview:lable];
+    [lable release];
     
 }
 
@@ -78,6 +82,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationItem.title = @"首页";
+    //[ToolSet removeLogoImageFromSuperView:self.navigationController.navigationBar andTag:tagForTopbarImageView];
+    //[ToolSet removeLogoImageFromSuperView:self.navigationController.navigationBar andTag:10015];
 }
 
 - (void)viewDidUnload

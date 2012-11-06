@@ -103,7 +103,6 @@ extern AppDelegate *appDelegate;
                                       selector:@selector(btnLoginClick:) 
                                          frame:CGRectMake(160, 110, 150, UI_BUTTON_HEIGHT)];
     [loginTableView addSubview:btnLogin];
-
     
 }
 
@@ -255,9 +254,9 @@ extern AppDelegate *appDelegate;
     hud.labelText = @"Login...";
     //block模式
     [hud showAnimated:YES whileExecutingBlock:^{
-        //[self doLoginTask];
+        [self doLoginTask];
         
-        [self loginSuccess:nil];
+        //[self loginSuccess:nil];
         
     } completionBlock:^{
         [hud removeFromSuperview];
@@ -322,7 +321,7 @@ extern AppDelegate *appDelegate;
              forControlEvents:UIControlEventEditingDidEndOnExit];
         tfUserName.returnKeyType = UIReturnKeyDone;
         tfUserName.clearButtonMode = UITextFieldViewModeWhileEditing;
-        
+        tfUserName.text = @"571000033XS";
         tfUserName.placeholder = @"输入帐号";
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -344,6 +343,7 @@ extern AppDelegate *appDelegate;
         tfPassword.returnKeyType = UIReturnKeyDone;
         tfPassword.clearButtonMode = UITextFieldViewModeWhileEditing;
         tfPassword.placeholder = @"输入密码";
+        tfPassword.text = @"123456";
         tfPassword.secureTextEntry = YES;
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
