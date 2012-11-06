@@ -78,5 +78,64 @@
 }
 
 
+#pragma mark -
+#pragma mark -
+#pragma mark - Custom navigation backButton
+
++(void)AddNavigationBarBackButtonwithTag:(NSInteger)tag
+                                   Title:(NSString *)title
+                                  target:(id)target
+                                selector:(SEL)selector
+                              targetView:(UINavigationBar *)navi
+                    isNeedDelegateButton:(BOOL)isneed
+{
+
+    if([navi.subviews count]>0)
+    {
+        for(UIButton *btn in navi.subviews)
+        {
+            if(btn.tag == tag)
+            {
+                [btn removeFromSuperview];
+            }
+        }
+    }
+    
+    if(isneed == YES)
+    {
+        return;
+    }
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.tag = tag;
+    btn.titleLabel.font = [UIFont systemFontOfSize:16.0];
+    btn.titleLabel.textAlignment = UITextAlignmentCenter;
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    [btn setBackgroundImage:[UIImage imageNamed:@"image_goBack"] forState:UIControlStateNormal];
+    [btn setFrame:CGRectMake(5.0, 7, 49, 30)];
+    [navi addSubview:btn];
+}
+
++(void)removeLogoImageFromSuperView:(UINavigationBar *)view andTag:(NSInteger)tag
+{
+    for(id v in view.subviews)
+    {
+        if(v!=nil && [v isMemberOfClass:[UIImageView class]])
+        {
+            UIImageView *b = (UIImageView *)v;
+            
+            if(b.tag == tag)
+            {
+                [b removeFromSuperview];
+                break;
+            }
+            
+        }
+    }
+}
+
+
+
 
 @end

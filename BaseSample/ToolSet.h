@@ -44,5 +44,16 @@ typedef enum
          target:(id)target
            view:(UIView *) view;
 
+#pragma mark - 
+#pragma mark 4.XX的时候设置titileBar返回键 
++(void)AddNavigationBarBackButtonwithTag:(NSInteger)tag
+                                   Title:(NSString *)title
+                                  target:(id)target
+                                selector:(SEL)selector
+                              targetView:(UINavigationBar *)navi
+                    isNeedDelegateButton:(BOOL)isneed;
+
++(void)removeLogoImageFromSuperView:(UINavigationBar *)view andTag:(NSInteger)tag;
+
 
 @end
