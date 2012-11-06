@@ -64,6 +64,10 @@
 		05B14544164267E8007F2F4F /* checkbox_nor.png in Resources */ = {isa = PBXBuildFile; fileRef = 05B14540164267E8007F2F4F /* checkbox_nor.png */; };
 		05B14546164268DC007F2F4F /* tab_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 05B14545164268DC007F2F4F /* tab_bg.png */; };
 		05B1454D16427466007F2F4F /* DataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B1454C16427466007F2F4F /* DataParser.m */; };
+		05B733581648FE6600FF4E60 /* image_goBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 05B733571648FE6600FF4E60 /* image_goBack.png */; };
+		05B7336D1649173000FF4E60 /* VCTranslucentBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 05B7336C1649173000FF4E60 /* VCTranslucentBarButtonItem.m */; };
+		05B733711649179F00FF4E60 /* backwardbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 05B7336F1649179F00FF4E60 /* backwardbutton.png */; };
+		05B733721649179F00FF4E60 /* backwardbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 05B733701649179F00FF4E60 /* backwardbutton@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -150,6 +154,11 @@
 		05B14545164268DC007F2F4F /* tab_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_bg.png; sourceTree = "<group>"; };
 		05B1454B16427466007F2F4F /* DataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataParser.h; sourceTree = "<group>"; };
 		05B1454C16427466007F2F4F /* DataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataParser.m; sourceTree = "<group>"; };
+		05B733571648FE6600FF4E60 /* image_goBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image_goBack.png; sourceTree = "<group>"; };
+		05B7336B1649173000FF4E60 /* VCTranslucentBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VCTranslucentBarButtonItem.h; sourceTree = "<group>"; };
+		05B7336C1649173000FF4E60 /* VCTranslucentBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VCTranslucentBarButtonItem.m; sourceTree = "<group>"; };
+		05B7336F1649179F00FF4E60 /* backwardbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backwardbutton.png; sourceTree = "<group>"; };
+		05B733701649179F00FF4E60 /* backwardbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backwardbutton@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +295,8 @@
 		05B1451D16425F94007F2F4F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				05B7336B1649173000FF4E60 /* VCTranslucentBarButtonItem.h */,
+				05B7336C1649173000FF4E60 /* VCTranslucentBarButtonItem.m */,
 				05B1452D16426239007F2F4F /* LoginViewController.h */,
 				05B1452E16426239007F2F4F /* LoginViewController.m */,
 				05A8C7CE16437B1600CA9B9C /* IndexViewController.h */,
@@ -310,6 +321,9 @@
 		05B1451F16425F9C007F2F4F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				05B7336F1649179F00FF4E60 /* backwardbutton.png */,
+				05B733701649179F00FF4E60 /* backwardbutton@2x.png */,
+				05B733571648FE6600FF4E60 /* image_goBack.png */,
 				05A8C83B1643ABF300CA9B9C /* image_topBar.png */,
 				05A8C83C1643ABF300CA9B9C /* imageTabbar.png */,
 				05A8C8331643ABD500CA9B9C /* Default.png */,
@@ -450,6 +464,9 @@
 				05A8C83A1643ABD700CA9B9C /* icon@2x.png in Resources */,
 				05A8C83D1643ABF300CA9B9C /* image_topBar.png in Resources */,
 				05A8C83E1643ABF300CA9B9C /* imageTabbar.png in Resources */,
+				05B733581648FE6600FF4E60 /* image_goBack.png in Resources */,
+				05B733711649179F00FF4E60 /* backwardbutton.png in Resources */,
+				05B733721649179F00FF4E60 /* backwardbutton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +499,7 @@
 				05A8C7D416437B3100CA9B9C /* MoreViewController.m in Sources */,
 				05A8C7D716437B7600CA9B9C /* OtherViewController.m in Sources */,
 				05A8C8021643995A00CA9B9C /* DetailViewController.m in Sources */,
+				05B7336D1649173000FF4E60 /* VCTranslucentBarButtonItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,7 +544,8 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_LDFLAGS = "-fobjc-arc";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -543,8 +562,9 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-fobjc-arc";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
