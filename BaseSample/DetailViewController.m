@@ -9,6 +9,7 @@
 #import "DetailViewController.h"
 #import "ToolSet.h"
 #import "VCTranslucentBarButtonItem.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation DetailViewController
 
@@ -40,7 +41,19 @@
 
 -(void) btnBackClick:(id) sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    CATransition *transition = [CATransition animation];
+	transition.duration = 0.5;
+	transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]; 
+	transition.type = kCATransitionReveal; 
+	transition.subtype = kCATransitionFromBottom;
+	transition.delegate = self; 
+	[self.navigationController.view.layer addAnimation:transition forKey:nil];
+	//self.navigationController.navigationBarHidden = NO; 
+	[self.navigationController popViewControllerAnimated:NO];
+    
+    
+    //[self.navigationController popViewControllerAnimated:YES];
 }
 
 

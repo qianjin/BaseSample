@@ -10,6 +10,9 @@
 #import "ToolSet.h"
 #import "VCCustomNavigationBar.h"
 #import "DetailViewController.h"
+#import "CycleScrollView.h"
+#import "TestViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation IndexViewController
 
@@ -51,33 +54,84 @@
     [self.view addSubview:img];
     [img release];
     
-    //UIButton *button = [UIButton alloc] initWithFrame:CGRectMake(110, 100, 100, UI_BUTTON_HEIGHT);
+    
+    NSMutableArray *picArray = [[NSMutableArray alloc] init];
+    [picArray addObject:[UIImage imageNamed:@"AdImageDefault"]];
+    [picArray addObject:[UIImage imageNamed:@"AdImageDefault"]];
+
+    CycleScrollView *ads = [[CycleScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 70)
+                                                     cycleDirection:CycleDirectionLandscape
+                                                           pictures:picArray];
+    ads.delegate = self;
+    [self.view addSubview:ads];
+    [ads release];
+    [picArray release];
+
+    
+    
+    UIButton* testBtn = [ToolSet buttonNormal:@"test" target:self selector:@selector(btnTestClick:) frame:CGRectMake(110, 200, 150, UI_BUTTON_HEIGHT)];
+    
+    [self.view addSubview:testBtn];
+    
+    
+    
     UIButton *detailBtn = [ToolSet buttonNormal:@"Detail" 
                                          target:self 
                                        selector:@selector(btnDetailClick:) 
                                           frame:CGRectMake(110, 100, 100, UI_BUTTON_HEIGHT)];
     [self.view addSubview:detailBtn];
-    
-
-    UILabel *lable = [[UILabel alloc] initWithFrame:CGRectMake(110, 150, 100, UI_LABEL_HEIGHT)];
-    lable.text = @"Hello world";
-    [self.view addSubview:lable];
-    [lable release];
+//    
+//
+//    UILabel *lable = [[UILabel alloc] initWithFrame:CGRectMake(110, 150, 100, UI_LABEL_HEIGHT)];
+//    lable.text = @"Hello world";
+//    [self.view addSubview:lable];
+//    [lable release];
     
     
 }
+
+-(void) btnTestClick:(id) sender
+{
+    TestViewController* test = [[[TestViewController alloc] init] autorelease];
+    [[self navigationController] pushViewController:test animated:YES];
+}
+
+
+#pragma mark - CycleScrollViewDelegate
+- (void)cycleScrollViewDelegate:(CycleScrollView *)cycleScrollView didSelectImageView:(int)index {
+    [ToolSet messagebox:[NSString stringWithFormat:@"第%d张",index]];
+}
+
+- (void)cycleScrollViewDelegate:(CycleScrollView *)cycleScrollView didScrollImageView:(int)index {
+    //ad移动的时候做的操作
+    //self.title = [NSString stringWithFormat:@"第%d张", index];
+}
+
+
 
 
 -(void) btnDetailClick:(id) sender
 {
     
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] init];
-    barButtonItem.title = @"返回";
-    self.navigationItem.backBarButtonItem = barButtonItem;
-    [barButtonItem release];
+//    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] init];
+//    barButtonItem.title = @"返回";
+//    self.navigationItem.backBarButtonItem = barButtonItem;
+//    [barButtonItem release];
     
     DetailViewController *detail = [[[DetailViewController alloc] init] autorelease];
-    [[self navigationController] pushViewController:detail animated:YES];
+    
+    CATransition *transition = [CATransition animation];
+	transition.duration = 0.5;
+	transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]; 
+	transition.type = kCATransitionMoveIn; 
+	transition.subtype = kCATransitionFromTop;
+	transition.delegate = self; 
+	[self.navigationController.view.layer addAnimation:transition forKey:nil];
+	//self.navigationController.navigationBarHidden = NO; 
+	[self.navigationController pushViewController:detail animated:NO];
+    
+    
+    //[[self navigationController] pushViewController:detail animated:YES];
     
 }
 

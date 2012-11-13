@@ -60,7 +60,7 @@ extern AppDelegate *appDelegate;
     
     //1.画页面背景
     UIImageView *loginBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    loginBgImageView.image = [UIImage imageNamed:@"tab_bg"];
+    loginBgImageView.image = [UIImage imageNamed:@"imageLogin"];
     [self.view addSubview:loginBgImageView];
     [loginBgImageView release];
     
@@ -111,7 +111,7 @@ extern AppDelegate *appDelegate;
 -(void) loginSuccess:(DataModelUser *)user
 {
     
-    /*
+    
     if (appDelegate.isRemberPas == YES) {
         //自己的文件名（包括目录）
         NSString *fileName=[PATH_OF_DOCUMENT stringByAppendingPathComponent:@"userInfo"]; 
@@ -139,7 +139,7 @@ extern AppDelegate *appDelegate;
     if (plistData) {
         [plistData writeToFile:fileName atomically:YES];
     }
-    */
+    
      
     //组装TabbarController
     
@@ -256,16 +256,10 @@ extern AppDelegate *appDelegate;
     //block模式
     [hud showAnimated:YES whileExecutingBlock:^{
         [self doLoginTask];
-        
-        //[self loginSuccess:nil];
-        
     } completionBlock:^{
         [hud removeFromSuperview];
 		[hud release];
     }];
-
-    
-    
     
 }
 

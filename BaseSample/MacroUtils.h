@@ -34,6 +34,11 @@
 #define UI_BUTTON_HEIGHT            35
 #define UI_LABEL_FONT               [UIFont systemFontOfSize:UI_LABEL_FONT_SIZE]
 
+//http://192.168.2.176:9502/api/vas_list.php?openid=215715a150f27ef36a992ba8f9c0b70d&typeid=193&listType=1&start=0&limit=20
+//#define HOST_NAME         @"192.168.2.176:9502/api"//xs.zj165.com/API
+
+#define HOST_NAME         @"xs.zj165.com"
+
 /**
  *一些中文定义
  */
@@ -51,6 +56,12 @@ typedef enum {
 	
 } CurrentViewType;
 
+
+typedef enum{
+	ProcessNone=0,//无
+	ProcessDefault=1,//默认效果  黑色遮盖  
+	ProcessSimple=2,//一般  只有转圈
+} ProcessType;
 
 /*
  *  System Versioning Preprocessor Macros
