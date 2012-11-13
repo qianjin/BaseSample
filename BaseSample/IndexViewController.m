@@ -8,6 +8,7 @@
 
 #import "IndexViewController.h"
 #import "ToolSet.h"
+#import "VCCustomNavigationBar.h"
 #import "DetailViewController.h"
 
 @implementation IndexViewController
@@ -62,6 +63,7 @@
     lable.text = @"Hello world";
     [self.view addSubview:lable];
     [lable release];
+    
     
 }
 

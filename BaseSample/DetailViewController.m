@@ -74,11 +74,21 @@
     //self.navigationItem.backBarButtonItem.image = nil;
     //self.navigationItem.backBarButtonItem.title = @"test";
     
-    VCTranslucentBarButtonItem *item = [[VCTranslucentBarButtonItem alloc] initWithType:VCTranslucentBarButtonItemTypeBackward title:@"Test Button" target:self action:@selector(btnBackClick)];
+    VCTranslucentBarButtonItem *item = [[VCTranslucentBarButtonItem alloc] initWithType:VCTranslucentBarButtonItemTypeBackward title:@"返 回" target:self action:@selector(btnBackClick:)];
     self.navigationItem.leftBarButtonItem = item;
+    
+    UIButton *btnClickMe = [ToolSet buttonNormal:@"Click Me" target:self selector:@selector(btnClickMeClick:) frame:CGRectMake(110, 200, 100, UI_BUTTON_HEIGHT)];
+    
+    [self.view addSubview:btnClickMe];
     
     
 }
+
+-(void) btnClickMeClick:(id) sender
+{
+    [ToolSet messagebox:@"Test111"];
+}
+
 
 
 - (void)viewDidUnload

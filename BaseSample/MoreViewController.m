@@ -27,6 +27,17 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+
++ (MoreViewController *) sharedInstance
+{
+    static id sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[self alloc] init];
+    });    
+    return sharedInstance;
+}
+
 #pragma mark - View lifecycle
 
 /*

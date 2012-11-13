@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ToolSet.h"
 #import "LoginViewController.h"
+#import "VCCustomNavigationBar.h"
 
 @implementation UINavigationBar (CustomImage)  
 - (void)drawRect:(CGRect)rect {  
@@ -39,13 +40,7 @@ AppDelegate *appDelegate;
 
 -(void)customizeAppearance
 {
-    
-    
-    //self.view.backgroundColor = 
-    
-    
-#ifdef __IPHONE_5_0
-    
+
 float version = [[[UIDevice currentDevice] systemVersion] floatValue];
 if (version >= 5.0)
 {
@@ -107,9 +102,8 @@ if (version >= 5.0)
 //    UIImage *tabBackground = [[UIImage imageNamed:@"imageTabbar"] 
 //                              resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
 //    [[UITabBar appearance] setBackgroundImage:tabBackground];//背景
-//    [[UITabBar appearance] setSelectionIndicatorImage:
-//    [UIImage imageNamed:@"tab_select_indicator"]];//设置选中时的图片
-    //[[UITabBarItem appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tab_select_indicator"]];
+//    //[[UITabBar appearance] setSelectionIndicatorImage:[UIImage imageNamed:@"tab_select_indicator"]];//设置选中时的图片
+//    [[UITabBar appearance] setSelectionIndicatorImage:[[UIImage imageNamed:@"tab_select_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)]];
     
     //自定义slider
     UIImage *minImage = [[UIImage imageNamed:@"slider_minimum.png"] 
@@ -159,20 +153,14 @@ if (version >= 5.0)
      barMetrics:UIBarMetricsDefault];
 } else if (version < 5.0){
     
-    //[[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"image_topBar"]]];
-//    UIImage *image = [UIImage imageNamed: @"image_topBar.png"];
-//    [[UINavigationBar appearance] drawRect: [image drawInRect:CGRectMake(0, 0, 320, 44)]];
-//    
-    // self.navigationController.navigationBar
-   
-    
-    
+
 }
     
-#endif  
+
 
 
 }
+
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

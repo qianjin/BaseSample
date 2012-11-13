@@ -163,7 +163,6 @@ extern AppDelegate *appDelegate;
     
     
     MoreViewController *more = [[[MoreViewController alloc] init] autorelease];
-    //UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:@"设置" image:[UIImage imageNamed@""]];
     UIImage *moreImg = [UIImage imageNamed:@"settItem"];
     UITabBarItem *moreItem = [[UITabBarItem alloc] initWithTitle:@"更多" image:moreImg tag:102];
     [more setTabBarItem:moreItem];
@@ -242,6 +241,8 @@ extern AppDelegate *appDelegate;
         [btn setBackgroundImage:[UIImage imageNamed:@"checkbox_nor"] forState:UIControlStateNormal];
         appDelegate.isRemberPas = NO;
     }
+    
+    
 }
 //Login
 -(void) btnLoginClick:(id) sender
@@ -394,8 +395,9 @@ extern AppDelegate *appDelegate;
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     isEdit = NO;
-    [tfPassword resignFirstResponder];
-    [tfUserName resignFirstResponder];
+    //[tfPassword resignFirstResponder];
+    //[tfUserName resignFirstResponder];
+    [ToolSet cancelKeyBoard:self.view];
 }
 
 
