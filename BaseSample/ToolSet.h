@@ -45,15 +45,20 @@ typedef enum
            view:(UIView *) view;
 
 #pragma mark - 
-#pragma mark 4.XX的时候设置titileBar返回键 
-+(void)AddNavigationBarBackButtonwithTag:(NSInteger)tag
-                                   Title:(NSString *)title
-                                  target:(id)target
-                                selector:(SEL)selector
-                              targetView:(UINavigationBar *)navi
-                    isNeedDelegateButton:(BOOL)isneed;
+#pragma mark 提示框 
++ (void)messagebox:(NSString*)string;
 
-+(void)removeLogoImageFromSuperView:(UINavigationBar *)view andTag:(NSInteger)tag;
+#pragma mark - 
+#pragma mark 将date转成string格式 
++(NSString*)getCurrentDate:(NSDate*)date;
 
+#pragma mark - 
+#pragma mark 取消键盘 
++(void) cancelKeyBoard:(UIView*)view;
+
++(void) removeChilds:(UIView*)view;
+
++(NSString*) getFileSize:(NSString*)folderPath;
++(NSString*) deleteFiles:(NSString*)folderPath;
 
 @end

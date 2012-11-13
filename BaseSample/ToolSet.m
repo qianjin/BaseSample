@@ -40,11 +40,8 @@
 
 +(UIButton *) buttonWithTitle:(NSString *)title target:(id)target selector:(SEL)selector frame:(CGRect)frame darkTextColor:(BOOL)darkTextColor buttonType:(btnTypeOfToolSet)btype
 {
-    
     UIButton *button = [[UIButton alloc] initWithFrame:frame];
-    
     return button;
-    
 }
 
 /**
@@ -77,65 +74,94 @@
     return hud;
 }
 
-
-#pragma mark -
-#pragma mark -
-#pragma mark - Custom navigation backButton
-
-+(void)AddNavigationBarBackButtonwithTag:(NSInteger)tag
-                                   Title:(NSString *)title
-                                  target:(id)target
-                                selector:(SEL)selector
-                              targetView:(UINavigationBar *)navi
-                    isNeedDelegateButton:(BOOL)isneed
-{
-
-    if([navi.subviews count]>0)
-    {
-        for(UIButton *btn in navi.subviews)
-        {
-            if(btn.tag == tag)
-            {
-                [btn removeFromSuperview];
-            }
-        }
-    }
-    
-    if(isneed == YES)
-    {
-        return;
-    }
-    
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.tag = tag;
-    btn.titleLabel.font = [UIFont systemFontOfSize:16.0];
-    btn.titleLabel.textAlignment = UITextAlignmentCenter;
-    [btn setTitle:title forState:UIControlStateNormal];
-    [btn addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundImage:[UIImage imageNamed:@"image_goBack"] forState:UIControlStateNormal];
-    [btn setFrame:CGRectMake(5.0, 7, 49, 30)];
-    [navi addSubview:btn];
+/**
+ *显示一个提示框
+ */ 
++ (void)messagebox:(NSString*)string{
+	UIAlertView *ale = [[UIAlertView alloc] initWithTitle:@"" 
+												  message:string 
+												 delegate:self 
+										cancelButtonTitle:@"好" 
+										otherButtonTitles:nil ,
+						nil];
+	[ale show];
+	[ale release];
 }
 
-+(void)removeLogoImageFromSuperView:(UINavigationBar *)view andTag:(NSInteger)tag
-{
-    for(id v in view.subviews)
-    {
-        if(v!=nil && [v isMemberOfClass:[UIImageView class]])
-        {
-            UIImageView *b = (UIImageView *)v;
-            
-            if(b.tag == tag)
-            {
-                [b removeFromSuperview];
-                break;
-            }
-            
-        }
-    }
++(NSString*)getCurrentDate:(NSDate*)date{
+	//得到毫秒
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+	//[dateFormatter setDateFormat:@"hh:mm:ss"]
+	[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
+	//NSLog(@"Date%@", [dateFormatter stringFromDate:[NSDate date]]);
+	NSString *currentdt = [dateFormatter stringFromDate:date];
+	[dateFormatter release];
+	return currentdt;
 }
 
+//取消键盘
++(void) cancelKeyBoard:(UIView*)view{
+	NSArray *childs = view.subviews;
+	
+	for (int i = 0; i< [childs count]; i++) {
+		UIView *tb = [childs objectAtIndex:i];	
+		
+		if ([tb isKindOfClass:[UITextField class]]) {
+			[tb resignFirstResponder];
+		}
+		else {
+			[self cancelKeyBoard:tb];
+		}
+	}
+}
 
+/**
+ *删除掉view下面的子view
+ */
++(void) removeChilds:(UIView*)view{
+	NSArray *arr = [view subviews];
+	for (int i = 0; i<[arr count]; i++) {
+		UIView *uv = [arr objectAtIndex:i];
+		if (uv!=nil) {
+			[uv removeFromSuperview];
+		}
+	}
+}
+
+/**
+ *得到文件大小
+ */
++(NSString*) getFileSize:(NSString*)folderPath{
+	float fileSize = 0;
+	NSArray *contents; 
+    NSEnumerator *enumerator; 
+    NSString *path; 
+    contents = [[NSFileManager defaultManager] subpathsAtPath:folderPath]; 
+    enumerator = [contents objectEnumerator]; 
+    
+    while (path = [enumerator nextObject]) { 
+		NSError *err = nil;
+		NSDictionary *fattrib = [[NSFileManager defaultManager] attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:path] error:&err];
+		fileSize +=[fattrib fileSize]; 
+    } 
+	fileSize = fileSize/1024;
+	fileSize = fileSize/1024;
+	return [@"" stringByAppendingFormat:@"%.2fM",fileSize];
+}
+
+/**
+ *删除文件
+ */
++(NSString*) deleteFiles:(NSString*)folderPath{
+	if([[NSFileManager defaultManager] fileExistsAtPath:folderPath])
+	{
+		[[NSFileManager defaultManager] removeItemAtPath:folderPath error:nil];
+		return @"清理成功";
+	}
+	return @"已清理";
+}
 
 
 @end
