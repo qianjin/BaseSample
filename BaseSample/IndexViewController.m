@@ -62,38 +62,41 @@ typedef enum{
         [params setValue:@"A" forKey:@"cityCode"];
         [params setValue:@"1" forKey:@"start"];
         [params setValue:@"10" forKey:@"limit"];
-        
         [self requestByPost:@"API/api" tipStr:@"数据加载中,请稍后.." params:params tag:requestVas];
-
     });
-    
-    
     
 }
 
 -(void)responseReturnSuccess:(NSString *)json tag:(int)tag
 {
     
+    BOOL adFlag = NO;
+    BOOL vasFlag = NO;
     
     if (tag == requestAd) {
-        //NSLog(@"vas json is :%@",json);
+        adList = [DataParser getAdList:json];
         NSArray *adArr = [DataParser getAdList:json];
         for (DataModelAd *ad in adArr) {
-            NSLog(@"-----------ad url-----------%@",ad.imageUrl);
+            NSLog(@"-----------ad url----------%@",ad.imageUrl);
         }
-        
-        
+        adFlag = YES;
     } else {
-        //NSLog(@"ad json is :%@",json);
         
+        vasList = [DataParser getVasList:json];
         NSArray *vasArr = [DataParser getVasList:json];
         
         for (DataModelVas *vas in vasArr) {
             NSLog(@"-----------vas name-----------%@",vas.vasName);
         }
         
+        vasFlag = YES;
         
     }
+    
+    if (vasFlag && adFlag) {
+        [self drawViews];
+    }
+    
     
     
 }
@@ -102,32 +105,38 @@ typedef enum{
 
 -(void) drawViews
 {   
-    NSMutableArray *picArray = [[NSMutableArray alloc] init];
-    [picArray addObject:[UIImage imageNamed:@"AdImageDefault"]];
-    [picArray addObject:[UIImage imageNamed:@"AdImageDefault"]];
-    CycleScrollView *ads = [[CycleScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 70)
-                                                   cycleDirection:CycleDirectionLandscape
-                                                         pictures:picArray];
-    ads.delegate = self;
-    [self.view addSubview:ads];
-    [ads release];
-    [picArray release];
-    
-    //login button
-//    VCTranslucentBarButtonItem *item = [[VCTranslucentBarButtonItem alloc] initWithType:VCTranslucentBarButtonItemTypeNormal title:@" Login " target:self action:@selector(btnLoginClick:)];
-//    self.navigationItem.leftBarButtonItem = item;
+//    NSMutableArray *picArray = [[NSMutableArray alloc] init];
+//    [picArray addObject:[UIImage imageNamed:@"AdImageDefault"]];
+//    [picArray addObject:[UIImage imageNamed:@"AdImageDefault"]];
+//    CycleScrollView *ads = [[CycleScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 70)
+//                                                   cycleDirection:CycleDirectionLandscape
+//                                                         pictures:picArray];
+//    ads.delegate = self;
+//    [self.view addSubview:ads];
+//    [ads release];
+//    [picArray release];
     
     
-    UIButton* testBtn = [ToolSet buttonNormal:@"test" target:self selector:@selector(btnTestClick:) frame:CGRectMake(110, 200, 150, UI_BUTTON_HEIGHT)];
+    vasTableView = [[TableView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, UI_SCREEN_HEIGHT)];
     
-    [self.view addSubview:testBtn];
+    vasTableView.delegate = self;
+    vasTableView.dataSource = self;
+    [vasTableView addRefreshView];
+    vasTableView.refreshDelegate = self;
     
     
-    UIButton *detailBtn = [ToolSet buttonNormal:@"Detail" 
-                                         target:self 
-                                       selector:@selector(btnDetailClick:) 
-                                          frame:CGRectMake(110, 100, 100, UI_BUTTON_HEIGHT)];
-    [self.view addSubview:detailBtn];
+    [self.view addSubview:vasTableView];
+    
+//    UIButton* testBtn = [ToolSet buttonNormal:@"test" target:self selector:@selector(btnTestClick:) frame:CGRectMake(110, 200, 150, UI_BUTTON_HEIGHT)];
+//    
+//    [self.view addSubview:testBtn];
+//    
+//    
+//    UIButton *detailBtn = [ToolSet buttonNormal:@"Detail" 
+//                                         target:self 
+//                                       selector:@selector(btnDetailClick:) 
+//                                          frame:CGRectMake(110, 100, 100, UI_BUTTON_HEIGHT)];
+//    [self.view addSubview:detailBtn];
 
     
     
@@ -148,6 +157,56 @@ typedef enum{
 }
 
 
+#pragma mark -
+#pragma mark tableView 代理
+
+#pragma mark - UITableView Datasource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 10;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if(cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"Cell %d", indexPath.row];
+    
+    return cell;
+}
+
+#pragma mark - UITableView Delegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+-(void)reloadRefreshDataSource:(int)pageIndex
+{
+    NSLog(@"page index is :%d",pageIndex);
+}
+
+
+#pragma mark -
+#pragma mark scroll的一些代理方法
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    [vasTableView scrollViewWillBeginDecelerating:scrollView];
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [vasTableView scrollViewDidScroll:scrollView];
+}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView{
+    [vasTableView scrollViewDidEndDragging:scrollView];
+}
 
 
 
@@ -155,6 +214,8 @@ typedef enum{
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.leftBarButtonItem = nil;
     
     [self initRes];
     [self drawViews];

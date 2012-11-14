@@ -43,6 +43,7 @@
     //HUD.color = [UIColor lightGrayColor];
     [self.view addSubview:hud];
     hud.labelText = tipStr;
+    hud.labelFont = [UIFont systemFontOfSize:12];
     //HUD.detailsLabelText = @"Test detail"; 
     hud.delegate = self;
     [hud show:YES];
@@ -75,6 +76,7 @@
 	//HUD.dimBackground = YES;］
     //HUD.color = [UIColor lightGrayColor];
     [self.view addSubview:hud];
+    hud.labelFont = [UIFont systemFontOfSize:12];
     hud.labelText = tipStr;
     //HUD.detailsLabelText = @"Test detail"; 
     hud.delegate = self;

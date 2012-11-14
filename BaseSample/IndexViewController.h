@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseController.h"
+#import "TableView.h"
 
-@interface IndexViewController : BaseController
+@interface IndexViewController : BaseController<UITableViewDataSource,UITableViewDelegate,UITableViewRefresh>
 {
     NSArray *vasList;
     NSArray *adList;
+    
+    TableView *vasTableView;
 }
 
 @end

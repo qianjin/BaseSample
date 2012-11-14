@@ -39,4 +39,12 @@
 -(void) addRefreshView;
 
 
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView;
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView;
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView;
+
+
+
 @end

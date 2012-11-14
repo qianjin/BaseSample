@@ -27,16 +27,13 @@
 	// Initialization code.
 	if (_refreshHeaderView == nil) {
 		_refreshHeaderView =  [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.frame.size.height, self.frame.size.width, self.frame.size.height)];
-		//NSLog(@"%@", NSStringFromCGRect( _refreshHeaderView.frame ));
 		_refreshHeaderView.delegate = self;
 		[self addSubview:_refreshHeaderView];
 	}
 	
 	//  update the last update date
 	[_refreshHeaderView refreshLastUpdatedDate];
-	
-	//显示刷新条 并且即将要执行刷新的动作
-	//[_refreshHeaderView egoRefreshScrollViewDidEndDragging:self];
+    
 }
 
 
@@ -44,7 +41,7 @@
 #pragma mark 下拉刷新时加载数据
 -(void)reloadTableViewDataSource
 {   
-    currentPage = 0;
+    currentPage = 1;
 	//  should be calling your tableviews data source model to reload
 	//  put here just for demo
 	//刷新数据去吧
@@ -53,13 +50,17 @@
 	}
 	
 	isLoading = YES;
+    
+    sleep(3);
 
+    [self doneLoadingTableViewData];
+    
     //进行下接刷新时数据加载
     //isLoading = YES;
     //[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
 }
 /**
- *下接刷新时数据加载完成
+ *下拉刷新时数据加载完成
  */
 -(void)doneLoadingTableViewData
 {   
@@ -91,32 +92,12 @@
 
 #pragma mark -
 #pragma mark scroll的一些代理方法
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
-	point =scrollView.contentOffset;
-}
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
-	CGPoint pt =scrollView.contentOffset;
-	if (point.y < pt.y) {//向上提加载更多
-		//if (_refreshFooterView.hidden) {
-		//	return;
-		//}
-		//[_refreshFooterView egoRefreshScrollViewDidScroll:self];
-	}
-	else {
-		[_refreshHeaderView egoRefreshScrollViewDidScroll:self];
-	}
+    NSLog(@"is scrolling ");
+    [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView{
-	CGPoint pt =scrollView.contentOffset;
-	if (point.y < pt.y) {//向上提加载更多
-		//if (_refreshFooterView.hidden) {
-		//	return;
-		//}
-		//[_refreshFooterView egoRefreshScrollViewDidEndDragging:self];
-	}
-	else {//向下拉加载更多
-		[_refreshHeaderView egoRefreshScrollViewDidEndDragging:self];
-	}
+    [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
 }
 
 
