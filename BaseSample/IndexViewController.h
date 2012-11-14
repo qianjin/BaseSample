@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseController.h"
 
-@interface IndexViewController : UIViewController
+@interface IndexViewController : BaseController
+{
+    NSArray *vasList;
+    NSArray *adList;
+}
 
 @end

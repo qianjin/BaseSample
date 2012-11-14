@@ -15,6 +15,7 @@
 #import "IndexViewController.h"
 #import "MoreViewController.h"
 #import "OtherViewController.h"
+#import "DetailViewController.h"
 
 extern AppDelegate *appDelegate;
 
@@ -104,7 +105,12 @@ extern AppDelegate *appDelegate;
                                          frame:CGRectMake(160, 110, 150, UI_BUTTON_HEIGHT)];
     [loginTableView addSubview:btnLogin];
     
+    
 }
+
+
+
+
 
 #pragma mark - 
 #pragma mark Login成功后的操作 
@@ -193,8 +199,9 @@ extern AppDelegate *appDelegate;
     //sleep(3);
     NSString *userName = [tfUserName text];
     NSString *password = [tfPassword text]; 
-    MKNetworkEngine *engine = [[[MKNetworkEngine alloc] initWithHostName:@"xs.zj165.com/API"
-                                                      customHeaderFields:nil] autorelease];
+    //MKNetworkEngine *engine = [[MKNetworkEngine alloc] initWithHostName:@"xs.zj165.com/API"
+    //                                                  customHeaderFields:nil];
+    
     NSMutableDictionary *dic = [[[NSMutableDictionary alloc] init] autorelease];
     [dic setValue:@"user.login" forKey:@"method"];
     [dic setValue:@"1.0" forKey:@"v"];
@@ -203,28 +210,27 @@ extern AppDelegate *appDelegate;
     [dic setValue:userName forKey:@"username"];
     [dic setValue:password forKey:@"password"];
     
-    MKNetworkOperation *op = [engine operationWithPath:@"api" params:dic httpMethod:@"POST"];
-    [op onCompletion:^(MKNetworkOperation *operation) {
-        NSLog(@"post response string :%@",[op responseString]);
-        DataModelUser *user = [DataParser getUserInfo:[op responseString]];
-        NSLog(@"user name is :%@,password is : %@ ,and sessionkey is :%@",user.userName,user.password,user.sessionKey);
-        if (user) {
-            //login sucess
-            [self loginSuccess:user];
-        } else {
-            //user name or pass error
-            NSLog(@"----------error---------");
-            [ToolSet showMessage:@"用户名或密码错误" view:self.view];
-        }
-    } onError:^(NSError *error) {
-        [ToolSet showMessage:@"网络连接错误" view:self.view];
-        DLog(@"%@", error);
-    }];
+    //HUD.labelText = @"test";
     
-    [engine enqueueOperation:op];
+    [self requestByPost:@"API/api" tipStr:@"Login.." params:dic tag:0];
+    
+    //MKNetworkOperation* op = [self requestByPost:@"API/api" params:dic];
+    //[networkEngine enqueueOperation:op];
+
 }
 
-
+-(void)responseReturnSuccess:(NSString *)json tag:(int)tag
+{
+    DataModelUser *user = [DataParser getUserInfo:json];
+    if (user) {
+        //login sucess
+        [self loginSuccess:user];
+    } else {
+        //user name or pass error
+        NSLog(@"----------error---------");
+        [ToolSet showMessage:@"用户名或密码错误" view:self.view];
+    }
+}
 
 
 #pragma mark -
@@ -241,8 +247,6 @@ extern AppDelegate *appDelegate;
         [btn setBackgroundImage:[UIImage imageNamed:@"checkbox_nor"] forState:UIControlStateNormal];
         appDelegate.isRemberPas = NO;
     }
-    
-    
 }
 //Login
 -(void) btnLoginClick:(id) sender
@@ -250,19 +254,13 @@ extern AppDelegate *appDelegate;
     NSLog(@"userName:%@",tfUserName.text);
     NSLog(@"password:%@",tfPassword.text);
 
-    MBProgressHUD* hud = [[MBProgressHUD alloc] initWithView:self.view];
-	[self.view addSubview:hud];
-    hud.labelText = @"Login...";
-    //block模式
-    [hud showAnimated:YES whileExecutingBlock:^{
-        [self doLoginTask];
-    } completionBlock:^{
-        [hud removeFromSuperview];
-		[hud release];
-    }];
-    
+    [self doLoginTask];
 }
 
+-(void) btnBackClick:(id) sender
+{
+    [self popToParent];
+}
 
 
 
@@ -428,7 +426,6 @@ extern AppDelegate *appDelegate;
         [tfPassword release];
         tfPassword = nil;
     }
-
     [super dealloc];
 }
 

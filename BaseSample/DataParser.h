@@ -14,6 +14,11 @@
 
 +(DataModelUser *) getUserInfo:(NSString *) strData;
 
++(NSArray *) getAdList:(NSString *) strData;
+
++(NSArray *) getVasList:(NSString *) strData;
+
+
 @end
 
 

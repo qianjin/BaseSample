@@ -41,18 +41,7 @@
 
 -(void) btnBackClick:(id) sender
 {
-    
-    CATransition *transition = [CATransition animation];
-	transition.duration = 0.5;
-	transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]; 
-	transition.type = kCATransitionReveal; 
-	transition.subtype = kCATransitionFromBottom;
-	transition.delegate = self; 
-	[self.navigationController.view.layer addAnimation:transition forKey:nil];
-	//self.navigationController.navigationBarHidden = NO; 
-	[self.navigationController popViewControllerAnimated:NO];
-    
-    
+    [self popToParent];    
     //[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -75,21 +64,6 @@
 {
     [super viewDidLoad];
     
-    //1.画页面背景
-    UIImageView *loginBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT)];
-    loginBgImageView.image = [UIImage imageNamed:@"bg_sand"];
-    [self.view addSubview:loginBgImageView];
-    [loginBgImageView release];
-    
-    //[[[self navigationItem] backBarButtonItem] setTitle:@""];
-    //[[[[self navigationController] navigationItem] backBarButtonItem] setTitle:@""];
-    
-    //self.navigationItem.backBarButtonItem.image = nil;
-    //self.navigationItem.backBarButtonItem.title = @"test";
-    
-    VCTranslucentBarButtonItem *item = [[VCTranslucentBarButtonItem alloc] initWithType:VCTranslucentBarButtonItemTypeBackward title:@"返 回" target:self action:@selector(btnBackClick:)];
-    self.navigationItem.leftBarButtonItem = item;
-    
     UIButton *btnClickMe = [ToolSet buttonNormal:@"Click Me" target:self selector:@selector(btnClickMeClick:) frame:CGRectMake(110, 200, 100, UI_BUTTON_HEIGHT)];
     
     [self.view addSubview:btnClickMe];
@@ -99,9 +73,25 @@
 
 -(void) btnClickMeClick:(id) sender
 {
-    [ToolSet messagebox:@"Test111"];
+    //[ToolSet messagebox:@"Test111"];
+    
+    NSMutableDictionary *dic = [[[NSMutableDictionary alloc] init] autorelease];
+    [dic setValue:@"user.login" forKey:@"method"];
+    [dic setValue:@"1.0" forKey:@"v"];
+    [dic setValue:@"iphone" forKey:@"appkey"];
+    [dic setValue:@"308c982d146cbb85297621658d6b5ecc17b184cd" forKey:@"sig"];
+    [dic setValue:@"571000033XS" forKey:@"username"];
+    [dic setValue:@"123456" forKey:@"password"];
+    [self requestByPost:@"API/api" tipStr:@"Login信息加载中.." params:dic tag:0];
+    
+    
 }
 
+
+-(void)responseReturnSuccess:(NSString *)json tag:(int)tag
+{
+    [ToolSet messagebox:json];
+}
 
 
 - (void)viewDidUnload
@@ -109,6 +99,10 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)dealloc {
+    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

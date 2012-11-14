@@ -42,11 +42,7 @@
 {
     [super viewDidLoad];
     
-    //1.画页面背景
-    UIImageView *otherBg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT)];
-    otherBg.image = [UIImage imageNamed:@"bg_sand"];
-    [self.view addSubview:otherBg];
-    [otherBg release];
+    self.navigationItem.leftBarButtonItem = nil;
     
 }
 

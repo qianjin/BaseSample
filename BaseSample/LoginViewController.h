@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
+#import "BaseController.h"
 
-@interface LoginViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,MBProgressHUDDelegate>
+@interface LoginViewController : BaseController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,MBProgressHUDDelegate>
 {
     UITableView *loginTableView;
     UITextField *tfUserName;

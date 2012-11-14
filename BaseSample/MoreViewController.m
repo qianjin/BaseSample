@@ -52,11 +52,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //1.画页面背景
-    UIImageView *moreBg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT)];
-    moreBg.image = [UIImage imageNamed:@"bg_sand"];
-    [self.view addSubview:moreBg];
-    [moreBg release];
+    
+    self.navigationItem.leftBarButtonItem = nil;
     
 }
 

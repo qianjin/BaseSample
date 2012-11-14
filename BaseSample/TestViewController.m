@@ -43,13 +43,6 @@
 {
     [super viewDidLoad];
     
-    //1.画页面背景
-    UIImageView *loginBgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT)];
-    loginBgImageView.image = [UIImage imageNamed:@"bg_sand"];
-    [self.view addSubview:loginBgImageView];
-    [loginBgImageView release];
-    
-    
     UIButton* btnTest = [ToolSet buttonNormal:@"test" target:self selector:@selector(btnTestClick:) frame:CGRectMake(100, 100, 150, UI_BUTTON_HEIGHT)];
     [self.view addSubview:btnTest];
     
@@ -57,53 +50,40 @@
 
 -(void) btnTestClick:(id) sender
 {
-    //[self requestByGet:@"vas_list.php?openid=215715a150f27ef36a992ba8f9c0b70d&typeid=193&listType=1&start=0&limit=20"];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSMutableDictionary *dic = [[[NSMutableDictionary alloc] init] autorelease];
+        [dic setValue:@"user.login" forKey:@"method"];
+        [dic setValue:@"1.0" forKey:@"v"];
+        [dic setValue:@"iphone" forKey:@"appkey"];
+        [dic setValue:@"308c982d146cbb85297621658d6b5ecc17b184cd" forKey:@"sig"];
+        [dic setValue:@"571000033XS" forKey:@"username"];
+        [dic setValue:@"123456" forKey:@"password"];
+        [self requestByPost:@"API/api" tipStr:@"加载中.." params:dic tag:0];
 
-
-
-    networkEngine = [[MKNetworkEngine alloc] initWithHostName:HOST_NAME
-                                            customHeaderFields:nil];
+    });
     
-    
-//        NSMutableDictionary *dic = [[[NSMutableDictionary alloc] init] autorelease];
-//        [dic setValue:@"user.login" forKey:@"method"];
-//        [dic setValue:@"1.0" forKey:@"v"];
-//        [dic setValue:@"iphone" forKey:@"appkey"];
-//        [dic setValue:@"308c982d146cbb85297621658d6b5ecc17b184cd" forKey:@"sig"];
-//        [dic setValue:@"571000033XS" forKey:@"username"];
-//        [dic setValue:@"123456" forKey:@"password"];
-//        MKNetworkOperation* op1 = [self requestByPost:@"API/api" params:dic];
-        
-    
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
         NSMutableDictionary *params = [[[NSMutableDictionary alloc] init] autorelease];
         [params setValue:@"user.info" forKey:@"method"];
         [params setValue:@"1.0" forKey:@"v"];
         [params setValue:@"iphone" forKey:@"appkey"];
         [params setValue:@"308c982d146cbb85297621658d6b5ecc17b184cd" forKey:@"sig"];
         [params setValue:@"43c07b703d3c0abcbf05d2c2984e3bdd6ff3bde5" forKey:@"sessionkey"];
+        [self requestByPost:@"API/api" tipStr:@"加载中.." params:params tag:1];
+    });   
         
-        MKNetworkOperation *op = [self requestByPost:@"API/api" params:params];
-        
-        //[networkEngine enqueueOperation:op1];
-       [networkEngine enqueueOperation:op];
-       [networkEngine release];
-       
-   // });
-    
-
-    //[super getPaserHelper:@"vas_list.php?openid=215715a150f27ef36a992ba8f9c0b70d&typeid=193&listType=1&start=0&limit=20" :0];
     
 }
 
--(void)responseReturnSuccess:(NSString *)json url:(NSString *)url
+-(void)responseReturnSuccess:(NSString *)json tag:(int)tag
 {
     NSLog(@"返回的JSON是:%@",json);
     
-    NSLog(@"url is:%@",url);
+    NSLog(@"tag is:%d",tag);
     
     
-    //[ToolSet messagebox:json];
+    [ToolSet messagebox:json];
     
 }
 
@@ -113,6 +93,12 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
+
+-(void)dealloc
+{
+    [super dealloc];
+}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

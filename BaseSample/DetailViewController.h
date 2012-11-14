@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseController.h"
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : BaseController
 {
-
+    
 }
 @end

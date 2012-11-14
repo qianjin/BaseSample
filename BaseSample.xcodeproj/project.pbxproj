@@ -357,11 +357,10 @@
 		05B1451D16425F94007F2F4F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				05C3FC1316537DF300985235 /* VasViews */,
 				056FC1D4164A0EB10083542B /* CustomViews */,
 				05B1452D16426239007F2F4F /* LoginViewController.h */,
 				05B1452E16426239007F2F4F /* LoginViewController.m */,
-				05A8C7CE16437B1600CA9B9C /* IndexViewController.h */,
-				05A8C7CF16437B1600CA9B9C /* IndexViewController.m */,
 				05A8C7D216437B3100CA9B9C /* MoreViewController.h */,
 				05A8C7D316437B3100CA9B9C /* MoreViewController.m */,
 				05A8C7D516437B7500CA9B9C /* OtherViewController.h */,
@@ -456,6 +455,15 @@
 				05B14538164264E6007F2F4F /* DataModel.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		05C3FC1316537DF300985235 /* VasViews */ = {
+			isa = PBXGroup;
+			children = (
+				05A8C7CE16437B1600CA9B9C /* IndexViewController.h */,
+				05A8C7CF16437B1600CA9B9C /* IndexViewController.m */,
+			);
+			name = VasViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -634,7 +642,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_LDFLAGS = "-fobjc-arc";
 				SDKROOT = iphoneos;
 			};
@@ -652,7 +660,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-fobjc-arc";
 				SDKROOT = iphoneos;
