@@ -62,6 +62,7 @@
         DLog(@"%@", error);
     }];
     [networkEngine enqueueOperation:op];
+    [networkEngine release];
  
 }
 
@@ -95,7 +96,7 @@
         DLog(@"%@", error);
     }];
     [networkEngine enqueueOperation:op];
-    
+    [networkEngine release];
 }
 
 -(void)responseReturnSuccess:(NSString *)json tag:(int)tag

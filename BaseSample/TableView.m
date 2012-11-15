@@ -10,7 +10,7 @@
 
 @implementation TableView
 
-@synthesize refreshDelegate = _refreshDelegate;
+@synthesize refreshDelegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -24,15 +24,16 @@
 -(void) addRefreshView{
 
 	currentPage = -1;
-	// Initialization code.
-	if (_refreshHeaderView == nil) {
-		_refreshHeaderView =  [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.frame.size.height, self.frame.size.width, self.frame.size.height)];
-		_refreshHeaderView.delegate = self;
-		[self addSubview:_refreshHeaderView];
-	}
-	
-	//  update the last update date
-	[_refreshHeaderView refreshLastUpdatedDate];
+	if (_refreshHeaderView && [_refreshHeaderView superview]) {
+        [_refreshHeaderView removeFromSuperview];
+    }
+	_refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:
+                          CGRectMake(0.0f, 0.0f - self.bounds.size.height,
+                                     self.frame.size.width, self.bounds.size.height)];
+    _refreshHeaderView.delegate = self;
+	[self addSubview:_refreshHeaderView];
+    
+    [_refreshHeaderView refreshLastUpdatedDate];
     
 }
 
@@ -41,23 +42,15 @@
 #pragma mark 下拉刷新时加载数据
 -(void)reloadTableViewDataSource
 {   
+    
     currentPage = 1;
-	//  should be calling your tableviews data source model to reload
-	//  put here just for demo
 	//刷新数据去吧
 	if (refreshDelegate!=nil) {
 		[refreshDelegate reloadRefreshDataSource:currentPage];
 	}
 	
 	isLoading = YES;
-    
-    sleep(3);
 
-    [self doneLoadingTableViewData];
-    
-    //进行下接刷新时数据加载
-    //isLoading = YES;
-    //[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
 }
 /**
  *下拉刷新时数据加载完成
@@ -78,6 +71,9 @@
 -(void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView *)view
 {
     [self reloadTableViewDataSource];
+    
+    //[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+    
 }
 -(BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView *)view
 {
@@ -93,12 +89,29 @@
 #pragma mark -
 #pragma mark scroll的一些代理方法
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
-    NSLog(@"is scrolling ");
-    [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    //NSLog(@"is scrolling ");
+    if (isLoading == NO) {
+        [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    }
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView{
     [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
 }
+
+#pragma mark -
+#pragma mark reload
+-(void)reload:(int)rows
+{
+    
+    if (currentPage == 1) {
+		//[self doneLoadingTableViewData];
+		[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.01f];
+	}
+    
+    [super reloadData];
+    
+}
+
 
 
 #pragma mark -

@@ -28,7 +28,6 @@
     
 }
 
-
 @property(assign) id<UITableViewRefresh> refreshDelegate;
 
 //刷新时
@@ -39,11 +38,11 @@
 -(void) addRefreshView;
 
 
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView;
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView;
+
+-(void) reload:(int)rows;
 
 
 

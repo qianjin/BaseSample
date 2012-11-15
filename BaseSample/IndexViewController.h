@@ -14,8 +14,12 @@
 {
     NSArray *vasList;
     NSArray *adList;
-    
+    BOOL isFirst;
     TableView *vasTableView;
+    
+    BOOL adFlag;
+    BOOL vasFlag;
+    
 }
 
 @end
